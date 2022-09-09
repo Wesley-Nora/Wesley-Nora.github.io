@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Nora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/nora.css">
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./timeline.html">Timeline</a></li>
+        <li><a href="./timer.html">Timer</a></li>
+        <li><a href="./visited.html">Visited Together</a></li>
+        <li><a href="./places.html">Nora Named Place</a></li>
+      </ul>
+    </nav>
+    <audio loop autoplay>
+        <source src="asset/zuimeiqinglv.m4a" type="audio/mp4">
+    </audio>
+    <section class="timer-section">
+      <div class="timer-container" id="anniversary-timer-container">
+        <h1>We are being together since</h1>
+        <div id="anniversary-date"></div>
+        <div id="anniversary-date-counter"></div>
+      </div>
+      <div class="timer-container" id="wedding-registration-timer-container">
+        <h1>Our next milestone</h1>
+        <div id="wedding-registration-date"></div>
+        <div id="wedding-registration-date-counter"></div>
+      </div>
+    </section>
+    <script>
+      const anniversaryDate = new Date("2015-01-18T01:00");
+      const weddingRegistrationDate = new Date("2022-10-10T08:00");
+
+      document.getElementById("anniversary-date").innerHTML = anniversaryDate.toLocaleString();
+      document.getElementById("wedding-registration-date").innerHTML = weddingRegistrationDate.toLocaleString();
+
+      var anniversaryDateCounter = document.getElementById("anniversary-date-counter");
+      var weddingRegistrationDateCounter = document.getElementById("wedding-registration-date-counter");
+
+      function datetimeSince(datetimeStart, counterDisplay) {
+        var datetimeNow = new Date();
+        datetimeDiff = datetimeDifference(datetimeStart, datetimeNow);
+        counterDisplay.innerHTML = datetimeDiff.differenceYear + " Years " 
+                                  + datetimeDiff.differenceMonth + " Months "
+                                  + datetimeDiff.differenceDay + " Days<br>"
+                                  + datetimeDiff.differenceHour + " Hours "
+                                  + datetimeDiff.differenceMinute + " Minutes "
+                                  + datetimeDiff.differenceSecond + " Seconds"
+      }
+
+      function datetimeTo(datetimeEnd, counterDisplay) {
+        var datetimeNow = new Date();
+        datetimeDiff = datetimeDifference(datetimeNow, datetimeEnd);
+        counterDisplay.innerHTML = datetimeDiff.differenceYear + " Years " 
+                                  + datetimeDiff.differenceMonth + " Months "
+                                  + datetimeDiff.differenceDay + " Days<br>"
+                                  + datetimeDiff.differenceHour + " Hours "
+                                  + datetimeDiff.differenceMinute + " Minutes "
+                                  + datetimeDiff.differenceSecond + " Seconds"
+      }
+      
+      function datetimeDifference(datetimeStart, datetimeEnd) {
+        const second = 1000;
+        const minute = second*60;
+        const hour = minute*60;
+        const day = hour*24;
+        const month = day*30;
+        const year = month*12;
+      
+        difference = datetimeEnd - datetimeStart;
+        differenceYear = Math.floor(difference / year);
+        differenceMonth = Math.floor((difference % year) / month);
+        differenceDay = Math.floor((difference % year % month) / day);
+        differenceHour = Math.floor((difference % year % month % day) / hour);
+        differenceMinute = Math.floor((difference % year % month % day % hour) / minute);
+        differenceSecond = Math.floor((difference % year % month % day % hour % minute) / second);
+        
+        return {
+          differenceYear: differenceYear,
+          differenceMonth: differenceMonth,
+          differenceDay: differenceDay,
+          differenceHour: differenceHour,
+          differenceMinute: differenceMinute,
+          differenceSecond: differenceSecond
+        }
+      }
+      
+      function updateTimer() {
+        datetimeSince(anniversaryDate, anniversaryDateCounter);
+        datetimeTo(weddingRegistrationDate, weddingRegistrationDateCounter);
+      }
+      
+      setInterval(updateTimer, 1000);
+    </script>
+  </body>
+</html>
